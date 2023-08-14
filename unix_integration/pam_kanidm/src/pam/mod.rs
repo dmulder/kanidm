@@ -276,7 +276,7 @@ impl PamHooks for PamKanidm {
                         Err(err) => return err,
                     };
                     let req = ClientRequest::PamAuthenticateContinue(account_id, resp, data);
-                    match call_daemon_blocking(cfg.sock_path.as_str(), &req, cfg.unix_sock_timeout) {
+                    match call_daemon_blocking(cfg.sock_path.as_str(), &req, 900) {
                         Ok(r) => match r {
                             ClientResponse::PamStatus(Some(true)) => {
                                 PamResultCode::PAM_SUCCESS
