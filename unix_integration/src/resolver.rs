@@ -872,7 +872,7 @@ where
     pub async fn pam_account_authenticate_init(
         &self,
         account_id: &str,
-        shutdown_rx: broadcast::Receiver<()>,
+        mut shutdown_rx: broadcast::Receiver<()>,
     ) -> Result<(AuthSession, PamAuthResponse), ()> {
         // Setup an auth session. If possible bring the resolver online.
         // Further steps won't attempt to bring the cache online to prevent
@@ -899,7 +899,7 @@ where
                     token.as_ref(),
                     hsm_lock.deref_mut(),
                     &self.machine_key,
-                    &shutdown_rx,
+                    &mut shutdown_rx,
                 )
                 .await
         } else {
@@ -953,7 +953,7 @@ where
                     token: _,
                     online_at_init: true,
                     ref mut cred_handler,
-                    ref shutdown_rx,
+                    ref mut shutdown_rx,
                 },
                 CacheState::Online,
             ) => {

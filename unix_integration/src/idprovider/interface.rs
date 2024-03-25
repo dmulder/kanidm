@@ -167,7 +167,7 @@ pub trait IdProvider {
         _token: Option<&UserToken>,
         _tpm: &mut tpm::BoxedDynTpm,
         _machine_key: &tpm::MachineKey,
-        _shutdown_rx: &broadcast::Receiver<()>,
+        _shutdown_rx: &mut broadcast::Receiver<()>,
     ) -> Result<(AuthRequest, AuthCredHandler), IdpError>;
 
     async fn unix_user_online_auth_step<D: KeyStoreTxn + Send>(
@@ -178,7 +178,7 @@ pub trait IdProvider {
         _keystore: &mut D,
         _tpm: &mut tpm::BoxedDynTpm,
         _machine_key: &tpm::MachineKey,
-        _shutdown_rx: &broadcast::Receiver<()>,
+        _shutdown_rx: &mut broadcast::Receiver<()>,
     ) -> Result<(AuthResult, AuthCacheAction), IdpError>;
 
     async fn unix_user_offline_auth_init(
